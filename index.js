@@ -113,7 +113,6 @@ const {
    banner2,
    time,
    runtime,
-   formatp,
    sleep
 } = require('./lib/functions.js');
 
@@ -853,7 +852,7 @@ break
 *Tiempo de respuesta:* \n${latensi.toFixed(4)} _Segundos_ \n\n*Tiempo activo:* \n${runtime(process.uptime())}
 
 💻 Info Server
-RAM: ${formatp(os.totalmem() - os.freemem())} / ${formatp(os.totalmem())}
+RAM: (os.totalmem() - os.freemem()) / (os.totalmem())
 `.trim()
                 enviar(respon)
             }
