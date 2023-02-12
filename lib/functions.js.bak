@@ -86,6 +86,7 @@ const sleep = async (ms) => {
 }
 
 module.exports = {
+   checkRegisteredUser,
    banner,
    getBuffer,
    getRandom,

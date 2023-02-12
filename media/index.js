@@ -90,9 +90,7 @@ const FileType = require('file-type');
 const { exec, spawn } = require("child_process");
 
 const tiktok = require('./lib/scraper/tiktok.js');
-const tikstalk = require('./lib/scraper/ttstalk.js');
 const mediafire = require('./lib/scraper/mediafire.js');
-const ssweb = require('./lib/scraper/ssweb.js');
 
 const {
    color,
@@ -209,7 +207,7 @@ async function startDeku() {
                     ppgroup = 'https://tinyurl.com/yx93l6da'
                 }
 let buttons = [
-                    {buttonId: `${prefix}menu`, buttonText: {displayText: '☰ Menu'}, type: 1}
+                    {buttonId: `${prefix}menu`, buttonText: {displayText: 'Menu'}, type: 1}
                 ]                
 
 let buttonMessage = {
@@ -221,7 +219,7 @@ let buttonMessage = {
 }
 
 let butttons = [
-                    {buttonId: `${prefix}Menu`, buttonText: {displayText: '☰ Menu'}, type: 1}
+                    {buttonId: `${prefix}Menu`, buttonText: {displayText: 'Menu'}, type: 1}
                 ]                
 
 let butttonMessage = {    
@@ -245,7 +243,7 @@ let butttonMessage = {
             console.log(err)
         }
     })
-    
+   
    anita.ev.on('messages.upsert', async (m) => {
       function getGroupAdmins(participants) {
          admins = []
@@ -290,9 +288,8 @@ let butttonMessage = {
          const budy = (type === 'conversation') ? info.message.conversation : (type === 'extendedTextMessage') ? info.message.extendedTextMessage.text : ''
          var pes = (type === 'conversation' && info.message.conversation) ? info.message.conversation : (type == 'imageMessage') && info.message.imageMessage.caption ? info.message.imageMessage.caption : (type == 'videoMessage') && info.message.videoMessage.caption ? info.message.videoMessage.caption : (type == 'extendedTextMessage') && info.message.extendedTextMessage.text ? info.message.extendedTextMessage.text : ''
          const isGroup = info.key.remoteJid.endsWith('@g.us')
-         const sender = isGroup ? info.key.participant : info.key.remoteJid
          const isWelcome = isGroup ? welcome.includes(from) : false
-         
+         const sender = isGroup ? info.key.participant : info.key.remoteJid
          const groupMetadata2 = isGroup ? await anita.groupMetadata(from)  :  " "
 const participantss = isGroup ? await groupMetadata2.participants : ' '
 
@@ -468,15 +465,9 @@ const participantss = isGroup ? await groupMetadata2.participants : ' '
 
          // CASES 
 
-         switch (command) {   
-         
-         case 'own':
-         let ow = '595994966449@s.whatsapp.net'
-         anita.sendMessage(from, {text: `mi dueño es @${ow.split("@")[0]} :)`, mentions: [ow]})
-                          break                 
+         switch (command) {                    
          
          case 'sc': case 'source':
-         
          const templateButtons = [
     {index: 1, urlButton: {displayText: 'Descargar codigo fuente', url: 'https://github.com/DavidModzz/Deku-Bot'}}
 ]
@@ -489,19 +480,16 @@ const templateMessage = {
 await anita.sendMessage(from, templateMessage)
          break
          
-                         case 'npmsearch':
-                         
-                         if (!q) throw '*Introduce el nombre del paquete que deseas buscar*'
+                         case 'te':
+                         if (!q) throw 'Input Query'
 	let res = await fetch(`http://registry.npmjs.com/-/v1/search?text=${q}`)
 	let { objects } = await res.json()
-	if (!objects.length) throw `Busqueda "${q}" no encontrada :/`
+	if (!objects.length) throw `Query "${q}" not found :/`
 	let txt = objects.map(({ package: pkg }) => {
 		return `*${pkg.name}* (v${pkg.version})\n_${pkg.links.npm}_\n_${pkg.description}_`
 	}).join`\n\n`
 	enviar(txt)
                          break
-
-
 
 case 'welcome':
 if (!isGroup) return enviar(mess.groups)
@@ -520,7 +508,6 @@ anita.sendMessage(from, butttonMessage)
 break
 
    case 'welcomec' :
-   
    if (!isGroup) return enviar(mess.groups)
    if (!isGroupAdmins) return enviar(mess.admin)
    if (Number(args[0]) == 1) {
@@ -541,7 +528,6 @@ break
    break
          
         case 'menu': {
-        
 let buttons = [
                     {buttonId: `rules`, buttonText: {displayText: 'opcion 1'}, type: 1},
                     {buttonId: `donasi`, buttonText: {displayText: 'opcion 2'}, type: 1},
@@ -591,10 +577,8 @@ anita.sendMessage(from, buttonMessage, { quoted: info })
         break
 
          //fun menu
-
 case 'cuantomemide':
 case 'tama�opija':
-
 if (!isGroup) return enviar('Este comando solo puede ser usado en grupos')
 random = `${Math.floor(Math.random() * 25)}`
 hasil = `okey\n\nEl pene te mide *${random}* cm`
@@ -602,7 +586,6 @@ await anita.sendMessage(from, {text: hasil}, {quoted: info})
 break
 
 case 'dado':
-
 const dadus = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"]
 dadu = dadus[Math.floor(Math.random() * dadus.length)]
 dador = fs.readFileSync('./media/webp/' + dadu + '.webp')
@@ -610,7 +593,6 @@ anita.sendMessage(from, {sticker: dador}, {quoted: info})
 break
 
 case 'casino': case 'ruleta':
-
 const cassino = roleta.cassino.roleta[Math.floor(Math.random() * roleta.cassino.roleta.length)]
 const vitoriass = roleta.vitoria.ganhou[Math.floor(Math.random() * roleta.vitoria.ganhou.length)]
 const percass = roleta.vitoria.perdeu[Math.floor(Math.random() * roleta.vitoria.perdeu.length)]
@@ -631,10 +613,21 @@ anita.sendMessage(from, {text: cassino2}, {quoted: info})
 break
                 
                 // Downloader
+//git clone test
+case 'gitclone':
+const regex = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i
+    if (!args[0]) throw `Example user ${usedPrefix}gitclone https://github.com/Hyuura-Official/YushinoMdV2`
+    if (!regex.test(args[0])) throw 'link salah!'
+    let [_, user, repo] = args[0].match(regex) || []
+    repo = repo.replace(/.git$/, '')
+    let url = `https://api.github.com/repos/${user}/${repo}/zipball`
+    let op = fetch(url)
+    let filename = (await fetch(url, { method: 'HEAD' })).headers.get('content-disposition').match(/attachment; filename=(.*)/)[1]
+   await anita.sendMessage(from, {document: url}, {quoted: info})
+   break
 
 //Mediafire
 case 'mediafire':
-
 if (!q) return enviar("Y el enlace'")
 mediafire.mediafireDl(q)
      .then(result => {
@@ -645,41 +638,7 @@ mediafire.mediafireDl(q)
      
 //Tiktok
 
-case 'toktok2':
-         tt = await fetchJson(`https://deku.onrender.com/api/download/tiktok?url=${q}&apikey=clover`)
-         console.log(tt)
-         break
-
-case 'tiktokv2':
-if (!q) return enviar("Y el enlace del video?")
-tt = await fetchJson(`https://deku.onrender.com/api/download/tiktok?url=${q}&apikey=clover`)
-cover = tt.result.video.origin_cover
-caption = `
-*Estadisticas*
-*likes:* ${tt.result.stats.likeCount}
-*Comentarios:* ${tt.result.stats.commentCount}
-*Compartidos:* ${tt.result.stats.shareCount}
-*Vistas:* ${tt.result.stats.playCount}
-*Guardado:* ${tt.result.stats.saveCount}
-*Duracion:* ${tt.result.video.duration}
-*Calidad:* ${tt.result.video.ratio}
-`
-let tt2buttons = [
-                    {buttonId: `${prefix}tiktoknowm ${q}`, buttonText: {displayText: '· Sin marca de agua'}, type: 1},
-                    {buttonId: `${prefix}tiktokwm ${q}`, buttonText: {displayText: '· Con marca de agua'}, type: 1},
-                ]
-                let tt2buttonMessage = {
-                    image: { url: cover },
-                    caption: caption,                
-                    footer: botName,
-                    buttons: tt2buttons,
-                    headerType: 4
-                }
-                anita.sendMessage(from, tt2buttonMessage, { quoted: info })
-break
-
-case 'tiktok':
-
+//case 'tiktok':
 if (!q) return enviar("Y el enlace del video?")
 let buttons = [
                     {buttonId: `${prefix}tiktoknowm ${q}`, buttonText: {displayText: '· Sin marca de agua'}, type: 1},
@@ -693,10 +652,9 @@ let buttons = [
                     headerType: 4
                 }
                 anita.sendMessage(from, buttonMessage, { quoted: info })
-break
+//break
 
-case 'tiktoknowm':
-
+//case 'tiktoknowm':
 if (!q) return enviar('*Y el enlace del video?*')
 tiktok.tiktokdownload(q).then((res) => {
 enviar(mess.wait)
@@ -704,11 +662,9 @@ enviar(mess.wait)
 }).catch( e => {
 console.log(e)
 })
-break
+//break
 
-
-case 'tiktokwm':
-
+//case 'tiktokwm':
 if (!q) return enviar('*Y el enlace del video?*')
 tiktok.tiktokdownload(q).then((res) => {
 enviar(mess.wait)
@@ -717,11 +673,10 @@ enviar(mess.wait)
 console.log(e)
 enviar(mess.error)
 })
-break
+//break
 
 //youtube
         case 'play': case 'ytplay': {
-        
                 if (!q) throw `Ejemplo : ${prefix + command} coding`
                 let yts = require("yt-search")
                 let search = await yts(q)
@@ -770,7 +725,6 @@ Url : ${anu.url}`,
          break
          
          case 'youtubemp3': case 'ytaudio': case 'ytmp3': case 'yta': {
-         
          	if (!q) throw `Ejemplo : ${prefix + command} url`
          	enviar('Espere porfavor')
              let ytmp3 = await fetchJson(`https://danzzapi.xyz/api/downloader/ytmp4?url=${q}&apikey=danzz`)
@@ -779,7 +733,6 @@ Url : ${anu.url}`,
          break
          
          case 'youtubemp4': case 'ytvideo': case 'ytmp4': case 'ytv': {
-         
          	if (!q) throw `Ejemplo : ${prefix + command} url`
          	enviar('Espere porfavor')
              let ytmp4 = await fetchJson(`https://danzzapi.xyz/api/downloader/ytmp4?url=${q}&apikey=danzz`)
@@ -788,17 +741,6 @@ Url : ${anu.url}`,
          break
          
          //tools 
-         
-         case 'ssweb':
-
-if (!q) return enviar('*Y el enlace del video?*')
-
-let img = await (await getBuffer(`https://shot.screenshotapi.net/screenshot?token=7ZNTNWJ-SQ642TM-HNPPH94-9944GTM&url=${q}&output=image&file_type=png&wait_for_event=load`))
-
-  
-   anita.sendMessage(from, { image: img, caption: 'Here' }, { quoted: info })
-break
-
          case 'ebinary': {
             
             if (!q) return enviar(`Ejempll : ${prefix + command} texto`)
@@ -817,7 +759,6 @@ break
         break
 
 case 'qrcode':
-
 const tex = encodeURIComponent(body.slice(8))
 if (!tex) return enviar('Y el texto para convertir a codugo qr?')
 const bufferr = await getBuffer(`https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${tex}`)
@@ -825,7 +766,6 @@ anita.sendMessage(from, {image: bufferr}, {quoted: info})
 break
 
 case'tiktokstalk': case'tikstalk': case'ttstalk':
-
 if(!q) return enviar('*Y el Usuario?*')
 tikstalk.tiktokStalk(
 `${q}`)
@@ -844,7 +784,6 @@ tikstalk.tiktokStalk(
 break
          
         case 'ping': case 'info': case 'botstatus': {
-        
                 let timestamp = speed()
                 let latensi = speed() - timestamp
                 neww = performance.now()
@@ -896,7 +835,6 @@ break
 
 	// Text Pro
 		case 'pencil': case 'glitch': case'glitch2': case 'glitchtiktok': case 'berry': case 'blackpink': case 'neon': case 'logobear': case '3dchristmas': case 'thunder': case '3dbox': case 'video-game-classic': case 'marvel-studios': case 'ninja-logo': case 'green-horror': case 'magma': case '3d-neon-light': case '3d-orange-juice': case 'chocolate-cake': case '3dcrackedstone': case 'strawberry': {
-		
                 if (!q) throw `Ejemplo : ${prefix + command} DekuBot`
                 enviar(mess.wait)
                 anita.sendMessage(from, { image: { url: `https://danzzapi.xyz/api/textpro/${command}?text=${q}&apikey=danzz` }, caption: `${botName}` }, { quoted: info })
@@ -905,7 +843,6 @@ break
             
         // Photo Oxy
 	    case 'flaming': case 'shadow-sky': case 'metallic': case 'pubg': case 'naruto': case 'under-grass': case 'harry-potter': case 'flower-typography': case 'night-sky': {
-	    
                 if (!q) throw 'Y el texto para el logo?'
                 enviar(mess.wait)
                 anita.sendMessage(from, { image: { url: `https://danzzapi.xyz/api/photooxy/${command}?text=${q}&apikey=danzz` }, caption: `${botName}` }, { quoted: info })
@@ -915,7 +852,6 @@ break
          
          //Comando de grupos
 case 'hidetag':
-
 if (!isGroup) return enviar(mess.groups)
 if (!isGroupAdmins) return enviar(mess.admin)
 if (!isBotGroupAdmins) return enviar(mess.botAdmin)
@@ -923,7 +859,6 @@ if (!isBotGroupAdmins) return enviar(mess.botAdmin)
         break;
 
 case 'tagall': case 'infoall':
-
 if (!isGroup) return enviar(mess.groups)
 if (!isGroupAdmins) return enviar(mess.admin)
 if (!isBotGroupAdmins) return enviar(mess.botAdmin)
@@ -936,7 +871,6 @@ if (!isBotGroupAdmins) return enviar(mess.botAdmin)
             break
 
 case 'frigod':
-
 if (!isGroup) return enviar(mess.groups)
                 let tekoss = `══✪〘 *JAHUGA FRIGOD* 〙✪══\n*`
 		      	for (let mem of participants) {
@@ -947,7 +881,6 @@ if (!isGroup) return enviar(mess.groups)
             break
         
          case 'add': case 'unkick': case 'reviver':
-         
 if (!isGroup) return enviar(mess.groups)
 if (!isGroupAdmins) return enviar(mess.admin)
 if (!isBotGroupAdmins) return enviar(mess.botAdmin)
@@ -977,7 +910,6 @@ enviar(mess.error)
 break
 
    case 'ban': case 'kick':
-   
 if (!isGroup) return enviar(mess.groups)
 if (!isGroupAdmins) return enviar(mess.admin)
 if (!isBotGroupAdmins) return enviar(mess.botAdmin)
@@ -1013,7 +945,6 @@ else return enviar(mess.error)
 break
 
 case 'setfotogp': case 'fotogp':  
-
 if (!isGroup) return enviar(mess.groups)
 if (!isGroupAdmins) return enviar(mess.admin)
 if (!isBotGroupAdmins) return enviar(mess.botadmin)
@@ -1033,7 +964,6 @@ enviar(mess.error)
 break
 
 case 'linkgrupo': case 'linkgp': {
-
                 if (!isGroup) return enviar(mess.groups)
                 if (!isGroupAdmins) return enviar(mess.admin)
                 if (!isBotGroupAdmins) return enviar(mess.botadmin)
@@ -1044,7 +974,6 @@ case 'linkgrupo': case 'linkgp': {
             break
 
 case 'setname': case 'nombregp': {
-
                 if (!isGroup) return enviar(mess.group)
                 if (!isBotGroupAdmins) return enviar(mess.botadmin)
                 if (!isGroupAdmins) return enviar(mess.admin)
@@ -1055,7 +984,6 @@ case 'setname': case 'nombregp': {
             break
 
           case 'setdesc': case 'descgp': {
-          
                 if (!isGroup) return enviar(mess.group)
                 if (!isBotGroupAdmins) return enviar(mess.botadmin)
                 if (!isGroupAdmins) return enviar(mess.admin)
@@ -1066,7 +994,6 @@ case 'setname': case 'nombregp': {
             break
 
                case 'grupo': case 'group': {
-               
                 let buttons = [
                         { buttonId: `${prefix}grrupo open`, buttonText: { displayText: 'Abrir 🔓' }, type: 1 },
                         { buttonId: `${prefix}grrupo close`, buttonText: { displayText: 'Cerrar 🔒' }, type: 1 }
@@ -1082,7 +1009,6 @@ case 'setname': case 'nombregp': {
             break
 
 case 'grrupo':
-
                 if (!isGroup) return enviar(mess.group)
                 if (!isBotGroupAdmins) return enviar(mess.botadmin)
                 if (!isGroupAdmins) return enviar(mess.admin)
@@ -1093,7 +1019,6 @@ case 'grrupo':
 break
 
 case 'tagall': {
-
                 if (!isGroup) throw mess.group
                 if (!isBotGroupAdmins) throw mess.botAdmin
                 if (!isGroupAdmins) throw mess.admin
@@ -1108,7 +1033,6 @@ let teks = `══✪〘 *👥 Tag All* 〙✪══
                 break
 
 case 'rankgay':
-
 if(!isGroup) return enviar("Solo funciona en grupos")
 membr = []
 const gay1 = groupMembers
@@ -1151,7 +1075,6 @@ break
 
 case 'rankpuñetero':
 case 'rankpajero':
-
 if(!isGroup) return enviar("Solo funciona en grupos")
 membr = []
 const puñetero1 = groupMembers
@@ -1193,7 +1116,6 @@ anita.sendMessage(from, {text: rankzinpuñetero, mentions: membr}, {quoted: info
 break
 
 case 'ranknazi':
-
 if(!isGroup) return enviar("Solo funciona en grupos")
 membr = []
 const nazi1 = groupMembers
@@ -1235,7 +1157,6 @@ anita.sendMessage(from, {text: rankzinnazi, mentions: membr}, {quoted: info})
 break
 
 case 'rankhetero':
-
 if(!isGroup) return enviar("Solo funciona en grupos")
 membr = []
 const hetero1 = groupMembers
@@ -1277,7 +1198,6 @@ anita.sendMessage(from, {text: rankzinhetero, mentions: membr}, {quoted: info})
 break
 
 case 'ranknoob':
-
 if(!isGroup) return enviar("Solo funciona en grupos")
 membr = []
 const noob1 = groupMembers
@@ -1321,14 +1241,12 @@ break
 // menu make
 
 case 'cuaderno':
-
 if (!q) return enviar("Escribe un texto")
 const cuaderno = await getBuffer(`http://apis.xditya.me/write?text=${q}`)
 anita.sendMessage(from, {image: cuaderno}, {caption: botName}, {quoted: info})
 break
 
 case 'tourl':
-
    if (!isQuotedImage) return enviar('Marca una foto!');
    enviar(mess.wait);
    downloadAndSaveMediaMessage(info.message.extendedTextMessage.contextInfo.quotedMessage.imageMessage).then((anu) => {
@@ -1342,7 +1260,6 @@ case 'tourl':
 break
 
 case "toimg":
-
 if (!isQuotedSticker) return enviar("Etiqueta un sticker")
 buff = await getFileBuffer(info.message.extendedTextMessage.contextInfo.quotedMessage.stickerMessage, "image")
 enviar(mess.wait)
@@ -1356,32 +1273,7 @@ enviar(mess.error)
 }
 break
 
-case 'attp':
-try{ 
-attp = args.join(' ')
-url = encodeURI(`https://api.erdwpe.com/api/maker/attp?text=${attp}`)
-venomkkk = await getBuffer(url)
-anita.sendMessage(from, {sticker: venomkkk}, {quoted: info})
-} catch(e) {
-console.log(e)
-enviar(mess.error)
-}
-break
-
-case 'ttp':
-try{ 
-ttpg = args.join(' ')
-url3 = encodeURI(`https://api.erdwpe.com/api/maker/ttp?text=${ttpg}`)
-ttps = await getBuffer(url3)
-anita.sendMessage(from, {sticker: ttps}, {quoted: info})
-} catch(e) {
-console.log(e)
-enviar(mess.error)
-}
-break
-
 case 'sticker': case 's':
-
 enviar(mess.wait)
 {
 (async function () {
@@ -1463,7 +1355,7 @@ break
       }
       fs.watchFile('./index.js', (curr, prev) => {
          if (curr.mtime.getTime() !== prev.mtime.getTime()) {
-            console.log(green("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nREINICIANDO..."));
+            console.log(green("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\INDEX MODIFICADO.\nREINICIANDO..."));
             process.exit()
          }
       })

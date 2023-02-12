@@ -1,5 +1,6 @@
 const fs = require('fs')
 const chalk = require('chalk')
+const moment = require("moment-timezone")
 
 // SETTING //
 
@@ -13,6 +14,7 @@ global.ownerNumber = "595994966449"
 global.packname = '© Powered By'
 global.author = '𝑫𝒆𝒌𝒖 𝑩𝒐𝒕'
 global.mess = {
+            norg: `*No estas registrado, usa ${prefix}rg para registrarte*`,
             espere: " ..enviando.. ",
             wait: "𝑬𝒏𝒗𝒊𝒂𝒏𝒅𝒐...",
             owner: "𝑬𝒔𝒕𝒆 𝒄𝒐𝒎𝒂𝒏𝒅𝒐 𝒆𝒔 𝒆𝒙𝒄𝒍𝒖𝒔𝒊𝒗𝒐 𝒑𝒂𝒓𝒂 𝒎𝒊 𝒄𝒓𝒆𝒂𝒅𝒐𝒓",
@@ -21,7 +23,8 @@ global.mess = {
             admin: "𝑬𝒔𝒕𝒆 𝒄𝒐𝒎𝒂𝒏𝒅𝒐 𝒆𝒔 𝒔𝒐𝒍𝒐 𝒑𝒂𝒓𝒂 𝒂𝒅𝒎𝒊𝒏𝒔",
             botadmin: "𝑬𝒔𝒕𝒆 𝒄𝒐𝒎𝒂𝒏𝒅𝒐 𝒆𝒔 𝒔𝒐𝒍𝒐 𝒇𝒖𝒏𝒄𝒊𝒐𝒏𝒂 𝒔𝒊 𝒆𝒍 𝒃𝒐𝒕 𝒆𝒔 𝒂𝒅𝒎𝒊𝒏",
             error: "𝑬𝒓𝒓𝒐𝒓, 𝑰𝒏𝒕𝒆𝒏𝒕𝒆 𝒏𝒖𝒆𝒗𝒂𝒎𝒆𝒏𝒕𝒆 "
-         }
+         },
+            
 
 global.sgc = 'https://pornhub.com'
 
@@ -33,7 +36,6 @@ global.dpdf = 'application/pdf'
 global.drtf = 'text/rtf'
 
 global.thumb = fs.readFileSync('./media/img/1.jpg')
-global.qris = fs.readFileSync('./media/img/qr.jpg')
 global.pic = { url: 'https://telegra.ph/file/edb7387b1fc7a36bb60e6.jpg' }
 global.nopp = { url: 'https://tinyurl.com/yx93l6da'}
 global.pic2 = { url: 'https://telegra.ph/file/357dbb2cfe0bc7d7c45d1.jpg' }
@@ -46,9 +48,16 @@ global.wibu = [
         "https://www.thiswaifudoesnotexist.net/example-5613.jpg",
         "http://www.thiswaifudoesnotexist.net/example-1576.jpg"
 ]
+global.tiktokdl = "https://telegra.ph/file/d59093b0f0ce4a4635991.jpg"
 
 global.fsizedoc = '99999999999999'
 global.fpagedoc = '999'   
+
+
+global.welcome = JSON.parse(fs.readFileSync("./database/group/welcome.json"))
+
+
+global.hour = moment().tz('America/asuncion').format('HH:mm:ss')
       
         // VERIFICACIONES 
 
