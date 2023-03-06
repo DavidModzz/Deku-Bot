@@ -1,6 +1,6 @@
 <h1 align="center">
 <p>
-<img src= "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.figma.com%2Fcommunity%2Ffile%2F941607221092508263&psig=AOvVaw3_7EQmlPLYapEbfPP7peH-&ust=1678231589449000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCIjD-oC6yP0CFQAAAAAdAAAAABAE" alt="Deku Bot" width="720">
+<img src= "https://www.firstbenefits.org/wp-content/uploads/2017/10/placeholder-1024x1024.png" alt="Deku Bot" width="720">
 </p>
 
 <p align="center">
