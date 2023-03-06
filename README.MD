@@ -18,7 +18,6 @@
 ```
 termux-setup-storage
 ```
----------------------------
 **2° COMANDO ( INSTALAR GIT )**
 ```
 pkg install git -y
